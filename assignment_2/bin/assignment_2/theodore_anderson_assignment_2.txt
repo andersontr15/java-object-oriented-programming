@@ -1,0 +1,55 @@
+package assignment_2;
+
+public class Foothill
+{
+   public static void main(String[] args)
+   {
+      int myId = 20348721;
+      String name = "Theodore";
+      int numLet = name.length();
+
+      int intResult;
+      double doubleResult;
+
+      System.out.println("My first name is " + name);
+      System.out.println("My Student ID is " + myId);
+      System.out.print("The number of characters in my first name is ");
+      System.out.println(numLet);
+
+      // #1 myId % 17
+      intResult = myId % 17;
+
+      System.out.println("Expression #1 --> " + intResult);
+
+      // #2 (numLet + 17) % 11
+      intResult = (numLet + 17) % 11;
+
+      System.out.println("Expression #2 --> " + intResult);
+
+      // #3 myId / numLet + 800;
+      doubleResult = myId / (numLet + 800);
+
+      System.out.println("Expression #3 --> " + doubleResult);
+
+      // #4 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + numLet
+      intResult = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + numLet;
+
+      System.out.println("Expression #4 --> " + intResult);
+
+      // #5 15000 / 80 + [myId - 123,456 / (numLet + 20) ^ 2]
+      doubleResult = ((15000 / 80)
+            + ((myId - 123456) / ((numLet + 20) * (numLet + 20))));
+      System.out.println("Expression #5 --> " + doubleResult);
+   }
+}
+
+/* Console output 
+My first name is Theodore
+My Student ID is 20348721
+The number of characters in my first name is 8
+Expression #1 --> 10
+Expression #2 --> 3
+Expression #3 --> 25184.0
+Expression #4 --> 44
+Expression #5 --> 25984.0
+*/

@@ -1,0 +1,279 @@
+import java.util.Scanner;
+
+public class Foothill
+{
+   // food #1 constants
+   static final String FOOD_1_NAME = "avocado";
+   static final int FOOD_1_CALORIES_P100G = 160; // in calories
+   static final double FOOD_1_SOL_FIBER_P100G = 1.75; // in grams
+   static final double FOOD_1_FAT_P100G = 14.7; // in fat
+   static final double FOOD_1_PROTEIN_P100G = 2.0; // in protein
+
+   // food #2 constants
+   static final String FOOD_2_NAME = "tomato";
+   static final int FOOD_2_CALORIES_P100G = 18; // in calories
+   static final double FOOD_2_SOL_FIBER_P100G = .12; // in grams
+   static final double FOOD_2_FAT_P100G = 0.2; // in fat
+   static final double FOOD_2_PROTEIN_P100G = 1.2; // in protein
+
+   // food #3 constants
+   static final String FOOD_3_NAME = "buffalo mozzarella";
+   static final int FOOD_3_CALORIES_P100G = 282; // in calories
+   static final double FOOD_3_SOL_FIBER_P100G = 0.; // in grams
+   static final double FOOD_3_FAT_P100G = 28; // in fat
+   static final double FOOD_3_PROTEIN_P100G = 16; // in protein
+
+   // food #4 constants
+   static final String FOOD_4_NAME = "onion";
+   static final int FOOD_4_CALORIES_P100G = 40; // in calories
+   static final double FOOD_4_SOL_FIBER_P100G = 0.9;
+   static final double FOOD_4_FAT_P100G = 0.1; // in fat
+   static final double FOOD_4_PROTEIN_P100G = 1.1; // in protein
+
+   // food #5 constants
+   static final String FOOD_5_NAME = "asparagus";
+   static final int FOOD_5_CALORIES_P100G = 20;
+   static final double FOOD_5_SOL_FIBER_P100G = 1.7;
+   static final double FOOD_5_FAT_P100G = 0.1; // in fat
+   static final double FOOD_5_PROTEIN_P100G = 2.2; // in protein
+
+   static final String INDENT = "   ";
+   static final String SEPARATOR = "\n";
+   static final int MAX_GRAMS = 1500;
+   static final int MIN_GRAMS = 0;
+   static final int MAX_SERVINGS = 15;
+   static final int MIN_SERVINGS = 1;
+
+   public static void main(String[] args)
+   {
+      String recipeName, userInputStr;
+      int userInputInt, servingsCount;
+      double totalSolFiber, totalCals, totalFat, totalProtein;
+      Scanner inputStream = new Scanner(System.in);
+
+      // initialize accumulator variables
+      totalSolFiber = 0.;
+      totalCals = 0;
+      totalFat = 0;
+      totalProtein = 0;
+
+      // print menu
+      System.out.println("---------- List of Possible Ingredients ---------");
+      System.out.println(INDENT + "Food #1: " + FOOD_1_NAME);
+      System.out.println(INDENT + "Food #2: " + FOOD_2_NAME);
+      System.out.println(INDENT + "Food #3: " + FOOD_3_NAME);
+      System.out.println(INDENT + "Food #4: " + FOOD_4_NAME);
+      System.out.println(INDENT + "Food #5: " + FOOD_5_NAME);
+
+      // name of recipe
+      System.out.print("What are you calling this recipe ? ");
+      recipeName = inputStream.nextLine();
+
+      // prompt for servings
+      System.out.print("How many servings for this recipe?");
+      servingsCount = Integer.parseInt(inputStream.nextLine());
+
+      // error handling for servings
+      checkForValidServings(servingsCount, inputStream);
+
+      // food #1 ---------------------------------------------------------
+      System.out.print("How many grams of " + FOOD_1_NAME + "? ");
+      userInputStr = inputStream.nextLine();
+      userInputInt = Integer.parseInt(userInputStr);
+
+      // error handling for grams
+      checkForValidGrams(userInputInt, inputStream);
+
+      // update accumulators
+      totalCals += userInputInt * (FOOD_1_CALORIES_P100G / 100.);
+      totalSolFiber += userInputInt * (FOOD_1_SOL_FIBER_P100G / 100.);
+      totalFat += userInputInt * (FOOD_1_FAT_P100G / 100);
+      totalProtein += userInputInt * (FOOD_1_PROTEIN_P100G / 100);
+
+      // food #2 ---------------------------------------------------------
+      System.out.print("How many grams of " + FOOD_2_NAME + "? ");
+      userInputStr = inputStream.nextLine();
+      userInputInt = Integer.parseInt(userInputStr);
+
+      checkForValidGrams(userInputInt, inputStream);
+
+      // update accumulators
+      totalCals += userInputInt * (FOOD_2_CALORIES_P100G / 100.);
+      totalSolFiber += userInputInt * (FOOD_2_SOL_FIBER_P100G / 100.);
+      totalFat += userInputInt * (FOOD_2_FAT_P100G / 100);
+      totalProtein += userInputInt * (FOOD_2_PROTEIN_P100G / 100);
+
+      // food #3 ---------------------------------------------------------
+      System.out.print("How many grams of " + FOOD_3_NAME + "? ");
+      userInputStr = inputStream.nextLine();
+      userInputInt = Integer.parseInt(userInputStr);
+
+      // error handling for grams
+      checkForValidGrams(userInputInt, inputStream);
+
+      // update accumulators
+      totalCals += userInputInt * (FOOD_3_CALORIES_P100G / 100.);
+      totalSolFiber += userInputInt * (FOOD_3_SOL_FIBER_P100G / 100.);
+      totalFat += userInputInt * (FOOD_3_FAT_P100G / 100);
+      totalProtein += userInputInt * (FOOD_3_PROTEIN_P100G / 100);
+
+      // food #4
+      System.out.print("How many grams of " + FOOD_4_NAME + "? ");
+      userInputStr = inputStream.nextLine();
+      userInputInt = Integer.parseInt(userInputStr);
+
+      // error handling for grams
+      checkForValidGrams(userInputInt, inputStream);
+
+      // update accumulators
+      totalCals += userInputInt * (FOOD_4_CALORIES_P100G / 100.);
+      totalSolFiber += userInputInt * (FOOD_4_SOL_FIBER_P100G / 100.);
+      totalFat += userInputInt * (FOOD_4_FAT_P100G / 100);
+      totalProtein += userInputInt * (FOOD_4_PROTEIN_P100G / 100);
+
+      // food #5
+      System.out.print("How many grams of " + FOOD_5_NAME + "? ");
+      userInputStr = inputStream.nextLine();
+      userInputInt = Integer.parseInt(userInputStr);
+
+      // error handling for grams
+      checkForValidGrams(userInputInt, inputStream);
+
+      // update accumulators
+      totalCals += (userInputInt * (FOOD_5_CALORIES_P100G / 100.))
+            / servingsCount;
+      totalSolFiber += (userInputInt * (FOOD_5_SOL_FIBER_P100G / 100.))
+            / servingsCount;
+      totalFat += (userInputInt * (FOOD_5_FAT_P100G / 100)) / servingsCount;
+      totalProtein += (userInputInt * (FOOD_5_PROTEIN_P100G / 100))
+            / servingsCount;
+
+      inputStream.close();
+
+      // report results --------------------------------------------------
+      System.out.println("The nutritional value per serving is");
+      System.out.println("Total calories: " + totalCals);
+      System.out.println("Total fat: " + totalFat);
+      System.out.println("Total protein: " + totalProtein);
+      System.out.println("Total soluble fiber: " + totalSolFiber);
+   }
+
+   private static void checkForValidServings(int userInputInt,
+         Scanner inputStream)
+   {
+      if (userInputInt < MIN_SERVINGS || userInputInt > MAX_SERVINGS)
+      {
+         inputStream.close();
+         System.out.println(
+               "You have entered an invalid number of servings. Program will now shut down.");
+      }
+   }
+
+   private static void checkForValidGrams(int userInputInt, Scanner inputStream)
+   {
+      if (userInputInt < MIN_GRAMS || userInputInt > MAX_GRAMS)
+      {
+         inputStream.close();
+         System.out.println(
+               "You have entered an invalid gram amount. Program will now shut down.");
+      }
+   }
+}
+
+/* -------------------- Sample Run #1  ------------------
+---------- List of Possible Ingredients ---------
+   Food #1: avocado
+   Food #2: tomato
+   Food #3: buffalo mozzarella
+   Food #4: onion
+   Food #5: asparagus
+What are you calling this recipe ? fancy curry
+How many servings for this recipe?2
+How many grams of avocado? 30
+How many grams of tomato? 40
+How many grams of buffalo mozzarella? 50
+How many grams of onion? 60
+How many grams of asparagus? 70
+The nutritional value per serving is
+Total calories: 227.2
+Total fat: 18.585
+Total protein: 10.51
+Total soluble fiber: 1.7080000000000002
+
+
+/* -------------------- Sample Run #2  ------------------
+---------- List of Possible Ingredients ---------
+   Food #1: avocado
+   Food #2: tomato
+   Food #3: buffalo mozzarella
+   Food #4: onion
+   Food #5: asparagus
+What are you calling this recipe ? beef stew
+How many servings for this recipe?100
+You have entered an invalid number of servings. Program will now shut down.
+Exception in thread "main" How many grams of avocado? java.lang.IllegalStateException: Scanner closed
+   at java.util.Scanner.ensureOpen(Scanner.java:1070)
+   at java.util.Scanner.findWithinHorizon(Scanner.java:1670)
+   at java.util.Scanner.nextLine(Scanner.java:1538)
+   at Foothill.main(Foothill.java:81)
+
+   
+ /* -------------------- Sample Run #3  ------------------
+ ---------- List of Possible Ingredients ---------
+   Food #1: avocado
+   Food #2: tomato
+   Food #3: buffalo mozzarella
+   Food #4: onion
+   Food #5: asparagus
+What are you calling this recipe ? spicy pizza
+How many servings for this recipe?1
+How many grams of avocado? 250
+How many grams of tomato? 100
+How many grams of buffalo mozzarella? 150
+How many grams of onion? 100
+How many grams of asparagus? 50
+The nutritional value per serving is
+Total calories: 891.0
+Total fat: 79.10000000000001
+Total protein: 32.4
+Total soluble fiber: 6.245000000000001
+
+ /* -------------------- Sample Run #4  ------------------
+ ---------- List of Possible Ingredients ---------
+   Food #1: avocado
+   Food #2: tomato
+   Food #3: buffalo mozzarella
+   Food #4: onion
+   Food #5: asparagus
+What are you calling this recipe ? chili
+How many servings for this recipe?6
+How many grams of avocado? 400
+How many grams of tomato? 30
+How many grams of buffalo mozzarella? 99
+How many grams of onion? 12
+How many grams of asparagus? 30
+The nutritional value per serving is
+Total calories: 930.3799999999999
+Total fat: 86.597
+Total protein: 24.442
+Total soluble fiber: 7.229
+
+ /* -------------------- Sample Run #5  ------------------
+ ---------- List of Possible Ingredients ---------
+   Food #1: avocado
+   Food #2: tomato
+   Food #3: buffalo mozzarella
+   Food #4: onion
+   Food #5: asparagus
+What are you calling this recipe ? veggi chili
+How many servings for this recipe?5
+How many grams of avocado? 300
+How many grams of tomato? 300
+How many grams of buffalo mozzarella? 0
+How many grams of onion? 200
+How many grams of asparagus? 200
+The nutritional value per serving is
+Total calories: 622.0
+Total fat: 44.94
+Total protein: 12.680000000000001
+Total soluble fiber: 8.090000000000002

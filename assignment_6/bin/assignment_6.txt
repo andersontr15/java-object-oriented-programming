@@ -1,0 +1,219 @@
+
+public class Foothill
+{
+
+   public static void main(String[] args)
+   {
+      TripleString tripleString1 = new TripleString();
+      TripleString tripleString2 = new TripleString("theo", "hello", "world");
+      TripleString tripleString3 = new TripleString();
+      TripleString tripleString4 = new TripleString("welcome", "to", "java");
+
+      System.out.println("First round toString() method called.\n");
+
+      System.out.println(tripleString1.toString());
+      System.out.println(tripleString2.toString());
+      System.out.println(tripleString3.toString());
+      System.out.println(tripleString4.toString());
+
+      tripleString1.setString1("tester");
+      tripleString2.setString1("theodore");
+      tripleString4.setString3("Java");
+
+      System.out.println("Second round toString() method called.\n");
+
+      System.out.println(tripleString1.toString());
+      System.out.println(tripleString2.toString());
+      System.out.println(tripleString3.toString());
+      System.out.println(tripleString4.toString());
+
+      System.out.println("2 mutator tests");
+
+      System.out.println("Attempting to mutate string1");
+
+      if (tripleString1.setString1("Testing") == true)
+      {
+         System.out.println("Successfully updated string1\n");
+      } else
+      {
+         System.out.println("Failed to updated\n");
+      }
+
+      System.out.println("Attempting to mutate tripleString1 string1\n");
+
+      if (tripleString2.setString1("") == true)
+      {
+         System.out.println("Successfully updated string1\n");
+      } else
+      {
+         System.out.println("Failed to updated tripleString2 string1\n");
+      }
+
+      System.out.print("Accessing tripleString2 string1: ");
+      System.out.println(tripleString2.getString1());
+
+      System.out.print("Accessing tripleString1 string1: ");
+      System.out.println(tripleString1.getString1());
+
+   }
+
+}
+
+class TripleString
+{
+
+   public static final int MIN_LEN = 1;
+   public static final int MAX_LEN = 50;
+   public static final String DEFAULT_STRING = "(undefined)";
+
+   private static boolean validString(String str)
+   {
+      return str != null && str.length() >= MIN_LEN && str.length() <= MAX_LEN;
+   }
+
+   private String string1;
+   private String string2;
+   private String string3;
+
+   TripleString(String str1, String str2, String str3)
+   {
+      setString1(str1);
+      setString2(str2);
+      setString3(str3);
+   }
+
+   TripleString()
+   {
+      string1 = DEFAULT_STRING;
+      string2 = DEFAULT_STRING;
+      string3 = DEFAULT_STRING;
+   }
+
+   boolean setString1(String str1)
+   {
+      if (validString(str1))
+      {
+         string1 = str1;
+         return true;
+      } else
+      {
+         if (str1.isEmpty())
+         {
+            string1 = DEFAULT_STRING;
+            return false;
+         } else
+         {
+            return false;
+         }
+      }
+   }
+
+   boolean setString2(String str2)
+   {
+      if (validString(str2))
+      {
+         string2 = str2;
+         return true;
+      } else
+      {
+         if (str2.isEmpty())
+         {
+            string2 = DEFAULT_STRING;
+            return false;
+         } else
+         {
+            return false;
+         }
+      }
+   }
+
+   boolean setString3(String str3)
+   {
+      if (validString(str3))
+      {
+         string3 = str3;
+         return true;
+      } else
+      {
+         if (str3.isEmpty())
+         {
+            string3 = DEFAULT_STRING;
+            return false;
+         } else
+         {
+            return false;
+         }
+      }
+   }
+
+   String getString1()
+   {
+      return string1;
+   }
+
+   String getString2()
+   {
+      return string2;
+   }
+
+   String getString3()
+   {
+      return string3;
+   }
+
+   public String toString()
+   {
+      return "string1 is: " + string1 + ".\nstring2 is: " + string2
+            + ".\nstring3 is: " + string3 + ".\n";
+   }
+
+}
+
+/*Console output*/
+First round toString() method called.
+
+string1 is: (undefined).
+string2 is: (undefined).
+string3 is: (undefined).
+
+string1 is: theo.
+string2 is: hello.
+string3 is: world.
+
+string1 is: (undefined).
+string2 is: (undefined).
+string3 is: (undefined).
+
+string1 is: welcome.
+string2 is: to.
+string3 is: java.
+
+Second round toString() method called.
+
+string1 is: tester.
+string2 is: (undefined).
+string3 is: (undefined).
+
+string1 is: theodore.
+string2 is: hello.
+string3 is: world.
+
+string1 is: (undefined).
+string2 is: (undefined).
+string3 is: (undefined).
+
+string1 is: welcome.
+string2 is: to.
+string3 is: Java.
+
+2 mutator tests
+Attempting to mutate string1
+Successfully updated string1
+
+Attempting to mutate tripleString1 string1
+
+Failed to updated tripleString2 string1
+
+Accessing tripleString2 string1: (undefined)
+Accessing tripleString1 string1: Testing
+

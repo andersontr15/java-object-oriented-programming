@@ -1,0 +1,421 @@
+public class Foothill
+{
+
+   public static void main(String[] args)
+   {
+      Student[] students1 = new Student[]
+      {new Student("Anderson", "Theodore", 10),
+            new Student("Anderson", "William", 20),
+            new Student("Anderson", "Mary", 30),
+            new Student("Anderson", "James", 40),
+            new Student("Anderson", "Trey", 50),
+            new Student("Anderson", "Tristan", 60),
+            new Student("Henderson", "Rick", 70),
+            new Student("Henderson", "Sally", 80),
+            new Student("Henderson", "Sue", 90),
+            new Student("Henderson", "Todd", 100),
+            new Student("Henderson", "Dale", 110),
+            new Student("Jennings", "Griff", 120),
+            new Student("Jennings", "Matt", 130),
+            new Student("Jennings", "Mark", 140),
+            new Student("Jennings", "Max", 150)};
+
+      Student[] students2 = new Student[]
+      {new Student("Anderson", "Theodore", 50),
+            new Student("Henderson", "Dale", 60),
+            new Student("Anderson", "William", 70),
+            new Student("Anderson", "Mary", 80),
+            new Student("Anderson", "James", 90),
+            new Student("Anderson", "Trey", 40),
+            new Student("Anderson", "Tristan", 30),
+            new Student("Henderson", "Rick", 20),
+            new Student("Henderson", "Sally", 10),
+            new Student("Henderson", "Sue", 100),
+            new Student("Henderson", "Todd", 110),
+            new Student("Jennings", "Griff", 120),
+            new Student("Jennings", "Matt", 130),
+            new Student("Jennings", "Mark", 140),
+            new Student("Jennings", "Max", 150),
+            new Student("Jennings", "Manny", 160)};
+
+      Student[] students3 = new Student[]
+      {new Student("Anderson", "Theodore", 50)
+
+      };
+
+      Student[] students4 = new Student[]{
+
+      };
+
+      System.out.println("Before: ");
+      System.out.println(StudentArrayUtilities.toString(null, students2));
+
+      System.out.println("Sorting by default:");
+      StudentArrayUtilities.arraySort(students2);
+      System.out.println("After: ");
+      System.out.println(StudentArrayUtilities.toString(null, students2));
+
+      System.out.println("Sorting by first name: ");
+
+      Student.setSortKey(Student.SORT_BY_FIRST);
+      StudentArrayUtilities.arraySort(students2);
+
+      System.out.println("After:");
+      System.out.println(StudentArrayUtilities.toString(null, students2));
+
+      System.out.println("Sorting by total points: ");
+
+      Student.setSortKey(Student.SORT_BY_POINTS);
+      StudentArrayUtilities.arraySort(students2);
+      System.out.println("After:");
+      System.out.println(StudentArrayUtilities.toString(null, students2));
+
+      Student.setSortKey(Student.SORT_BY_FIRST);
+      double median;
+
+      median = StudentArrayUtilities.getMedianDestructive(students2);
+      System.out.println("Median of students2: " + median);
+
+      if (Student.getSortKey() == Student.SORT_BY_FIRST)
+      {
+         System.out.println("Current sort key preserved ");
+      } else
+      {
+         System.out.println("Error, sort key was not preserved");
+      }
+
+      median = StudentArrayUtilities.getMedianDestructive(students1);
+      System.out.println("Median of students1: " + median);
+
+      median = StudentArrayUtilities.getMedianDestructive(students3);
+      System.out.println("Median of students3: " + median);
+
+      median = StudentArrayUtilities.getMedianDestructive(students4);
+      System.out.println("Median of students4: " + median);
+
+   }
+
+}
+
+class Student
+{
+   private String lastName;
+   private String firstName;
+   private int totalPoints;
+   private static int sortKey;
+
+   public static final String DEFAULT_FIRST_NAME = "theo";
+   public static final String DEFAULT_NAME = "zz-error";
+   public static final int DEFAULT_POINTS = 0;
+   public static final int MAX_POINTS = 1000;
+
+   public static final int SORT_BY_FIRST = 88;
+   public static final int SORT_BY_LAST = 98;
+   public static final int SORT_BY_POINTS = 108;
+
+   // constructor requires parameters - no default supplied
+   public Student(String last, String first, int points)
+   {
+      if (!setFirstName(first))
+         firstName = DEFAULT_FIRST_NAME;
+      if (!setLastName(last))
+         lastName = DEFAULT_NAME;
+      if (!setPoints(points))
+         totalPoints = DEFAULT_POINTS;
+      sortKey = SORT_BY_LAST;
+   }
+
+   public String getLastName()
+   {
+      return lastName;
+   }
+   public int getTotalPoints()
+   {
+      return totalPoints;
+   }
+
+   public static int getSortKey()
+   {
+      return sortKey;
+   }
+
+   public static boolean setSortKey(int key)
+   {
+      if (!validKey(key))
+         return false;
+      sortKey = key;
+      return true;
+   }
+
+   public boolean setFirstName(String first)
+   {
+      if (!validString(first))
+         return false;
+      firstName = first;
+      return true;
+   }
+
+   public boolean setLastName(String last)
+   {
+      if (!validString(last))
+         return false;
+      lastName = last;
+      return true;
+   }
+
+   public boolean setPoints(int pts)
+   {
+      if (!validPoints(pts))
+         return false;
+      totalPoints = pts;
+      return true;
+   }
+
+   // could be an instance method and, if so, would take one parameter
+   public static int compareTwoStudents(Student firstStud, Student secondStud)
+   {
+      int result = 0;
+
+      switch (sortKey)
+      {
+         case Student.SORT_BY_FIRST :
+            result = firstStud.firstName
+                  .compareToIgnoreCase(secondStud.firstName);
+            break;
+         case Student.SORT_BY_LAST :
+            result = firstStud.lastName
+                  .compareToIgnoreCase(secondStud.lastName);
+            break;
+         case Student.SORT_BY_POINTS :
+            result = Integer.compare(firstStud.totalPoints,
+                  secondStud.totalPoints);
+            break;
+      }
+
+      return result;
+   }
+
+   public String toString()
+   {
+      String resultString;
+
+      resultString = " " + lastName + ", " + firstName + " points: "
+            + totalPoints + "\n";
+      return resultString.toLowerCase();
+   }
+
+   private static boolean validKey(int key)
+   {
+      if (key != Student.SORT_BY_FIRST && key != Student.SORT_BY_LAST
+            && key != Student.SORT_BY_POINTS)
+      {
+         return false;
+      }
+      return true;
+
+   }
+
+   private static boolean validString(String testStr)
+   {
+      if (testStr != null && Character.isLetter(testStr.charAt(0)))
+         return true;
+      return false;
+   }
+
+   private static boolean validPoints(int testPoints)
+   {
+      if (testPoints >= 0 && testPoints <= MAX_POINTS)
+         return true;
+      return false;
+   }
+}
+
+class StudentArrayUtilities
+{
+   public static String toString(String title, Student[] data)
+   {
+      String output = "";
+
+      // build the output string from the individual Students:
+      for (int k = 0; k < data.length; k++)
+         output += " " + data[k].toString();
+
+      return output;
+   }
+
+   public static double getMedianDestructive(Student[] array)
+   {
+
+      int len = array.length;
+      if (len == 0)
+         return 0.0;
+      else if (len == 1)
+         return array[0].getTotalPoints();
+      else
+      {
+         int currentSortKey = Student.getSortKey();
+
+         Student.setSortKey(Student.SORT_BY_POINTS);
+
+         int middle = len / 2;
+
+         if (len % 2 == 0)
+         {
+            // even
+            // take average
+            StudentArrayUtilities.arraySort(array);
+            double average = (array[middle - 1].getTotalPoints()
+                  + array[middle].getTotalPoints()) / 2;
+            Student.setSortKey(currentSortKey);
+
+            return average;
+
+         } else
+         {
+            // odd
+            StudentArrayUtilities.arraySort(array);
+            Student.setSortKey(currentSortKey);
+            return array[middle].getTotalPoints();
+         }
+
+      }
+   }
+
+   // returns true if a modification was made to the array
+   private static boolean floatLargestToTop(Student[] data, int top)
+   {
+      boolean changed = false;
+      Student temp;
+
+      // compare with client call to see where the loop stops
+      for (int k = 0; k < top; k++)
+         if (Student.compareTwoStudents(data[k], data[k + 1]) > 0)
+         {
+            temp = data[k];
+            data[k] = data[k + 1];
+            data[k + 1] = temp;
+            changed = true;
+         }
+      return changed;
+   }
+
+   // public callable arraySort() - assumes Student class has a compareTo()
+   public static void arraySort(Student[] array)
+   {
+      for (int k = 0; k < array.length; k++)
+         // compare with method def to see where inner loop stops
+         if (!floatLargestToTop(array, array.length - 1 - k))
+            return;
+   }
+
+   public static int arraySearch(Student[] array, String keyFirst,
+         String keyLast)
+   {
+      for (int k = 0; k < array.length; k++)
+         if (array[k].getLastName().equals(keyLast))
+            return k; // found match, return index
+
+      return -1; // fell through - no match
+   }
+
+   public static int binarySearch(Student[] array, String keyLast,
+         int firstIndex, int lastIndex)
+   {
+      int middleIndex, result;
+
+      if (firstIndex > lastIndex)
+         return -1;
+
+      middleIndex = (firstIndex + lastIndex) / 2;
+      result = keyLast.compareToIgnoreCase(array[middleIndex].getLastName());
+
+      if (result == 0)
+         return middleIndex; // found him!
+      else if (result < 0)
+         return binarySearch(array, keyLast, firstIndex, middleIndex - 1);
+      else
+         return binarySearch(array, keyLast, middleIndex + 1, lastIndex);
+   }
+}
+
+/* Console Output */ 
+Before: 
+  anderson, theodore points: 50
+  henderson, dale points: 60
+  anderson, william points: 70
+  anderson, mary points: 80
+  anderson, james points: 90
+  anderson, trey points: 40
+  anderson, tristan points: 30
+  henderson, rick points: 20
+  henderson, sally points: 10
+  henderson, sue points: 100
+  henderson, todd points: 110
+  jennings, griff points: 120
+  jennings, matt points: 130
+  jennings, mark points: 140
+  jennings, max points: 150
+  jennings, manny points: 160
+
+Sorting by default:
+After: 
+  anderson, theodore points: 50
+  anderson, william points: 70
+  anderson, mary points: 80
+  anderson, james points: 90
+  anderson, trey points: 40
+  anderson, tristan points: 30
+  henderson, dale points: 60
+  henderson, rick points: 20
+  henderson, sally points: 10
+  henderson, sue points: 100
+  henderson, todd points: 110
+  jennings, griff points: 120
+  jennings, matt points: 130
+  jennings, mark points: 140
+  jennings, max points: 150
+  jennings, manny points: 160
+
+Sorting by first name: 
+After:
+  henderson, dale points: 60
+  jennings, griff points: 120
+  anderson, james points: 90
+  jennings, manny points: 160
+  jennings, mark points: 140
+  anderson, mary points: 80
+  jennings, matt points: 130
+  jennings, max points: 150
+  henderson, rick points: 20
+  henderson, sally points: 10
+  henderson, sue points: 100
+  anderson, theodore points: 50
+  henderson, todd points: 110
+  anderson, trey points: 40
+  anderson, tristan points: 30
+  anderson, william points: 70
+
+Sorting by total points: 
+After:
+  henderson, sally points: 10
+  henderson, rick points: 20
+  anderson, tristan points: 30
+  anderson, trey points: 40
+  anderson, theodore points: 50
+  henderson, dale points: 60
+  anderson, william points: 70
+  anderson, mary points: 80
+  anderson, james points: 90
+  henderson, sue points: 100
+  henderson, todd points: 110
+  jennings, griff points: 120
+  jennings, matt points: 130
+  jennings, mark points: 140
+  jennings, max points: 150
+  jennings, manny points: 160
+
+Median of students2: 85.0
+Current sort key preserved 
+Median of students1: 80.0
+Median of students3: 50.0
+Median of students4: 0.0

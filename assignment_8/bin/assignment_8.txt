@@ -1,0 +1,267 @@
+import java.lang.Math;
+
+public class Foothill
+{
+
+   public static void main(String[] args)
+   {
+      DateProfile[] date_profiles = new DateProfile[]
+      {           
+         new DateProfile('m', 'f', 5, 5, "Theodore Anderson"),
+         new DateProfile('f', 'm', 6, 7, "Jennifer Hernandez"),
+         new DateProfile('m', 'f', 3, 7, "Johnny Walker"),
+         new DateProfile('f', 'm', 2, 4, "Lexie Cooper")
+      };
+
+      int date_profiles_len = date_profiles.length;
+
+      for (int i = 0; i < date_profiles_len; i++)
+      {
+         for (int j = 0; j < date_profiles_len; j++)
+         {
+            Foothill.displayTwoProfiles(date_profiles[i], date_profiles[j]);
+         }
+      }
+   }
+
+   public static void displayTwoProfiles(DateProfile profile1,
+         DateProfile profile2)
+   {
+      System.out.println("The fit between " + profile1.getName() + " and "
+            + profile2.getName() + " is: " + profile1.fitValue(profile2));
+   }
+
+}
+
+class DateProfile
+{
+
+   public static final double INCOMPATIBLE_FIT_VALUE = 0;
+   public static final int INCOMPATIBLE_GENDER_FIT = 0;
+   public static final int COMPATIBLE_GENDER_FIT = 1;
+   public static final int MIN_ROMANCE = 1;
+   public static final int MAX_ROMANCE = 10;
+   public static final int MIN_FINANCE = 1;
+   public static final int MAX_FINANCE = 10;
+   public static final int MIN_NAME_LEN = 5;
+   public static final char MALE_GENDER = 'm';
+   public static final char FEMALE_GENDER = 'f';
+
+   public static final char DEFAULT_GEND = 'm';
+   public static final char DEFAULT_SEARCH_GEND = 'f';
+   public static final int DEFAULT_ROMANCE = 5;
+   public static final int DEFAULT_FINANCE = 5;
+   public static final String DEFAULT_NAME = "Theodore Anderson";
+
+   private char gender;
+   private char searchGender;
+   private int romance;
+   private int finance;
+   private String name;
+
+   DateProfile()
+   {
+      this.setDefaults();
+   }
+
+   DateProfile(char gender, char searchGender, int romance, int finance,
+         String name)
+   {
+      this.setAll(gender, searchGender, romance, finance, name);
+   }
+
+   int getRomance()
+   {
+      return romance;
+   }
+
+   int getFinance()
+   {
+      return finance;
+   }
+
+   String getName()
+   {
+      return name;
+   }
+
+   char getSearchGender()
+   {
+      return searchGender;
+   }
+
+   char getGender()
+   {
+      return gender;
+   }
+
+   boolean setName(String name)
+   {
+      if (isValidName(name))
+      {
+         this.name = name;
+         return true;
+      }
+      return false;
+   }
+
+   boolean setFinance(int finance)
+   {
+      if (isValidFinance(finance))
+      {
+         this.finance = finance;
+         return true;
+      }
+      return false;
+   }
+
+   boolean setRomance(int romance)
+   {
+      if (isValidRomance(romance))
+      {
+         this.romance = romance;
+         return true;
+      }
+      return false;
+   }
+
+   boolean setSearchGender(char searchGender)
+   {
+      if (isValidGender(searchGender))
+      {
+         this.searchGender = searchGender;
+         return true;
+      }
+      return false;
+   }
+
+   boolean setGender(char gdr)
+   {
+      if (isValidGender(gdr))
+      {
+         this.gender = gdr;
+         return true;
+      }
+      return false;
+   }
+
+   public void setAll(char gender, char searchGender, int romance, int finance,
+         String name)
+   {
+      if (!setGender(gender))
+         gender = DEFAULT_GEND;
+      if (!setName(name))
+         name = DEFAULT_NAME;
+      if (!setSearchGender(searchGender))
+         searchGender = DEFAULT_SEARCH_GEND;
+      if (!setRomance(romance))
+         romance = DEFAULT_ROMANCE;
+      if (!setFinance(finance))
+         finance = DEFAULT_FINANCE;
+   }
+
+   public void setDefaults()
+   {
+      this.gender = DEFAULT_GEND;
+      this.searchGender = DEFAULT_SEARCH_GEND;
+      this.romance = DEFAULT_ROMANCE;
+      this.finance = DEFAULT_FINANCE;
+      this.name = DEFAULT_NAME;
+   }
+
+   private boolean isValidName(String name)
+   {
+      return name != null && name.length() >= MIN_NAME_LEN;
+   }
+
+   private boolean isValidFinance(int finance)
+   {
+      return finance >= MIN_FINANCE && finance <= MAX_FINANCE;
+   }
+
+   private boolean isValidRomance(int romance)
+   {
+      return romance >= MIN_ROMANCE && romance <= MAX_ROMANCE;
+   }
+
+   private boolean isValidGender(char gdr)
+   {
+      if (gdr != MALE_GENDER && gdr != FEMALE_GENDER)
+      {
+         return false;
+      }
+      return true;
+   }
+
+   double fitValue(DateProfile partner)
+   {
+      if (this.determineGenderFit(partner) == INCOMPATIBLE_GENDER_FIT)
+      {
+         return INCOMPATIBLE_FIT_VALUE;
+      } else
+      {
+         double romanceFit = this.determineRomanceFit(partner);
+         double financeFit = this.determineFinanceFit(partner);
+         double avgFromRomanceAndFinanceFits = ((romanceFit + financeFit) / 2);
+         return Math.round(avgFromRomanceAndFinanceFits * 1000.00) / 1000.00;
+      }
+   }
+
+   private double determineGenderFit(DateProfile partner)
+   {
+      if (partner.getGender() == this.getSearchGender()
+            && partner.getSearchGender() == this.getGender())
+         return COMPATIBLE_GENDER_FIT;
+      return INCOMPATIBLE_GENDER_FIT;
+   }
+
+   private double determineRomanceFit(DateProfile partner)
+   {
+      double romance = this.romance;
+      double partnerRomance = partner.romance;
+      if (romance == partnerRomance)
+         return 1;
+      else if (romance > partnerRomance)
+      {
+         return partnerRomance / romance;
+      } else
+      {
+         return romance / partnerRomance;
+      }
+   }
+
+   private double determineFinanceFit(DateProfile partner)
+   {
+      double finance = this.finance;
+      double partnerFinance = partner.finance;
+
+      if (finance == partnerFinance)
+         return 1;
+      else if (finance > partnerFinance)
+      {
+         return partnerFinance / finance;
+      } else
+      {
+         return finance / partnerFinance;
+      }
+   }
+
+}
+
+/*Console output*/
+The fit between Theodore Anderson and Theodore Anderson is: 0.0
+The fit between Theodore Anderson and Jennifer Hernandez is: 0.774
+The fit between Theodore Anderson and Johnny Walker is: 0.0
+The fit between Theodore Anderson and Lexie Cooper is: 0.6
+The fit between Jennifer Hernandez and Theodore Anderson is: 0.774
+The fit between Jennifer Hernandez and Jennifer Hernandez is: 0.0
+The fit between Jennifer Hernandez and Johnny Walker is: 0.75
+The fit between Jennifer Hernandez and Lexie Cooper is: 0.0
+The fit between Johnny Walker and Theodore Anderson is: 0.0
+The fit between Johnny Walker and Jennifer Hernandez is: 0.75
+The fit between Johnny Walker and Johnny Walker is: 0.0
+The fit between Johnny Walker and Lexie Cooper is: 0.619
+The fit between Lexie Cooper and Theodore Anderson is: 0.6
+The fit between Lexie Cooper and Jennifer Hernandez is: 0.0
+The fit between Lexie Cooper and Johnny Walker is: 0.619
+The fit between Lexie Cooper and Lexie Cooper is: 0.0

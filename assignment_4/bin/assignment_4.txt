@@ -1,0 +1,169 @@
+import java.util.Scanner;
+
+public class Fothill
+{
+   public static void main(String[] args)
+   {
+      final char PROCESS_PURCHASE_CHOICE_CHAR = 'p';
+      final char SHUT_DOWN_CHOICE_CHAR = 's';
+      final int STAMPS_NEEDED_FOR_FREE_YOGURT = 7;
+      final int MIN_VALID_YOGURTS_PURCHASE = 1;
+      final int MAX_VALID_YOGURTS_PURCHASE = 15;
+
+      Scanner inputStream = new Scanner(System.in);
+      String userChoice, userInputStr;
+      int userInputInt, userStampBalance = 0;
+
+      do
+      {
+         System.out
+         .println("Menu:\n" + "P (process Purchase\n" + "S (Shut down)");
+         userChoice = inputStream.nextLine().toLowerCase();
+         if (userChoice.charAt(0) == PROCESS_PURCHASE_CHOICE_CHAR)
+         {
+
+            if (userStampBalance >= STAMPS_NEEDED_FOR_FREE_YOGURT)
+            {
+
+               System.out.print("You qualify for a free yogurt.");
+               System.out
+               .println("Would you like to use your credits? (Y or N)");
+               userInputStr = inputStream.nextLine().toUpperCase();
+
+               if (userInputStr.charAt(0) != 'Y'
+                     && userInputStr.charAt(0) != 'N')
+               {
+                  System.out.println("*** Invalid response ***");
+                  // send user back to beginning of loop execution
+                  continue;
+               }
+
+               else if (userInputStr.charAt(0) == 'Y')
+               {
+                  userStampBalance -= 7;
+                  System.out
+                  .print("You have just used 7 credits and now have ");
+                  System.out.println(userStampBalance + " left");
+                  System.out.println("Enjoy your free yogurt.");
+                  // send user back to beginning of loop execution
+                  continue;
+               }
+
+            }
+            System.out.println("How many yogurts would you like to buy?");
+
+            try
+            {
+               userInputInt = Integer.parseInt(inputStream.nextLine());
+
+               if (userInputInt < MIN_VALID_YOGURTS_PURCHASE
+                     || userInputInt > MAX_VALID_YOGURTS_PURCHASE)
+               {
+                  System.out
+                  .println("You must enter a number between 1 and 15");
+               } else
+               {
+                  userStampBalance += userInputInt;
+                  System.out
+                  .print("You just earned " + userInputInt + " stamps");
+                  System.out
+                  .println(" and have a total of " + userStampBalance);
+               }
+            } catch (Exception err)
+            {
+               System.out.println("Invalid input. You must enter a number.");
+            }
+
+         } else if (userChoice.charAt(0) != SHUT_DOWN_CHOICE_CHAR)
+         {
+            System.out.println("*** Use P or S, please. ***");
+         }
+      } while (userChoice.charAt(0) != SHUT_DOWN_CHOICE_CHAR);
+
+      System.out.println("Program shutting down..");
+      inputStream.close();
+   }
+}
+
+/*Console Output*/
+/* Menu:
+P (process Purchase
+S (Shut down)
+p
+How many yogurts would you like to buy?
+23
+You must enter a number between 1 and 15
+Menu:
+P (process Purchase
+S (Shut down)
+p
+How many yogurts would you like to buy?
+12
+You just earned 12 stamps and have a total of 12
+Menu:
+P (process Purchase
+S (Shut down)
+p
+You qualify for a free yogurt.Would you like to use your credits? (Y or N)
+33
+*** Invalid response ***
+Menu:
+P (process Purchase
+S (Shut down)
+p
+You qualify for a free yogurt.Would you like to use your credits? (Y or N)
+y
+You have just used 7 credits and now have 5 left
+Enjoy your free yogurt.
+Menu:
+P (process Purchase
+S (Shut down)
+p
+How many yogurts would you like to buy?
+12
+You just earned 12 stamps and have a total of 17
+Menu:
+P (process Purchase
+S (Shut down)
+p
+You qualify for a free yogurt.Would you like to use your credits? (Y or N)
+n
+How many yogurts would you like to buy?
+12
+You just earned 12 stamps and have a total of 29
+Menu:
+P (process Purchase
+S (Shut down)
+p
+You qualify for a free yogurt.Would you like to use your credits? (Y or N)
+none
+How many yogurts would you like to buy?
+12
+You just earned 12 stamps and have a total of 41
+Menu:
+P (process Purchase
+S (Shut down)
+p
+You qualify for a free yogurt.Would you like to use your credits? (Y or N)
+33
+*** Invalid response ***
+Menu:
+P (process Purchase
+S (Shut down)
+p
+You qualify for a free yogurt.Would you like to use your credits? (Y or N)
+55
+*** Invalid response ***
+Menu:
+P (process Purchase
+S (Shut down)
+p
+You qualify for a free yogurt.Would you like to use your credits? (Y or N)
+55
+*** Invalid response ***
+Menu:
+P (process Purchase
+S (Shut down)
+s
+Program shutting down..
+*/
